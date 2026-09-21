@@ -4,25 +4,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="QUẢN LÝ SINH VIÊN"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
+
+    <EditText
+            android:id="@+id/edtMaSV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập mã sinh viên"
+            android:inputType="text" />
 
     <EditText
             android:id="@+id/edtTen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nhập tên" />
+            android:hint="Nhập họ tên sinh viên"
+            android:inputType="textCapWords" />
+
+    <EditText
+            android:id="@+id/edtNganh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập ngành học"
+            android:inputType="textCapWords" />
 
     <Button
             android:id="@+id/btnHienThi"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hiển thị" />
+            android:text="Hiển thị thông tin" />
 
     <TextView
             android:id="@+id/txtKetQua"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kết quả"
-            android:textSize="20sp" />
+            android:text="Thông tin sinh viên sẽ hiển thị ở đây"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp" />
 
 </LinearLayout>
