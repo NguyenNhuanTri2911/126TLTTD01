@@ -6,6 +6,9 @@ import com.example.studentprofilecard.databinding.ActivityMainBinding
 import com.example.studentprofilecard.extensions.toAcademicRanking
 import com.example.studentprofilecard.model.Student
 import com.example.studentprofilecard.extensions.toast
+import android.content.Intent
+import android.net.Uri
+import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +33,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnUpdateGpa.setOnClickListener {
             updateGpa()
+        }
+        binding.btnCall.setOnClickListener {
+            val intent = Intent(
+                Intent.ACTION_DIAL,
+                Uri.parse("tel:${currentStudent.phone}")
+            )
+            startActivity(intent)
+        }
+        binding.btnDeleteProfile.setOnClickListener {
+            showDeleteDialog()
         }
     }
 
@@ -59,5 +72,15 @@ class MainActivity : AppCompatActivity() {
         } ?: run {
             toast("Vui lòng nhập GPA hợp lệ!")
         }
+    }
+    private fun showDeleteDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Xoa ho so")
+            .setMessage("Ban co chac muon xoa ho so sinh vien?")
+            .setPositiveButton("Xoa") { _, _ ->
+                toast("Da xoa ho so!")
+            }
+            .setNegativeButton("Huy", null)
+            .show()
     }
 }
