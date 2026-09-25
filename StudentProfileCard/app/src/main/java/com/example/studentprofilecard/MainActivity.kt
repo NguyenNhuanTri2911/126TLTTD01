@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         name = "Nguyen Nhuan Tri",
         className = "SPKT",
         email = "nntri@gmail.com",
+        phone = "0123456789",
         gpa = 3.0
     )
 
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             tvStudentId.text = "MSSV: ${currentStudent.id}"
             tvClassName.text = "Lop: ${currentStudent.className}"
             tvEmail.text = "Email: ${currentStudent.email}"
+            tvPhone.text = "Phone: ${currentStudent.phone}"
             tvGpa.text =
                 "GPA: ${currentStudent.gpa} - ${currentStudent.gpa.toAcademicRanking()}"
         }
