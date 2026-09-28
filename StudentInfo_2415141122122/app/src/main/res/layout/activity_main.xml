@@ -55,4 +55,12 @@
         android:text="Điểm:"
         android:textSize="18sp" />
 
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trang thai:"
+        android:textSize="18sp"
+        android:layout_marginTop="12dp" />
+
 </LinearLayout>

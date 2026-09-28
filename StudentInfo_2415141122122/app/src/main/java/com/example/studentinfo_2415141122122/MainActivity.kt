@@ -13,9 +13,10 @@ class MainActivity : AppCompatActivity() {
     private val student = Student(
         id = "2415141122122",
         name = "Nguyen Nhuan Tri",
-        className = "SPKT",
+        className = "24SK1",
         age = 20,
-        score = 3.2
+        score = 0.0,
+        status = "Dang hoc"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             tvClass.text = "Lop: ${student.className}"
             tvAge.text = "Tuoi: ${student.age}"
             tvScore.text = "Diem: ${student.score.formatScore()}"
+            tvStatus.text = "Trang thai: ${student.status}"
         }
     }
 }
