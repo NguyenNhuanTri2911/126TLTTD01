@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             tvAge.text = "Tuoi: ${student.age}"
             tvScore.text = "Diem: ${student.score.formatScore()}"
             tvStatus.text = "Trang thai: ${student.status}"
+            tvPhone.text = "So dien thoai: ${student.phone}"
 
             tvStudentInfo.text = student.toDisplayInfo()
         }
