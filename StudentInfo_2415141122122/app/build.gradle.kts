@@ -8,7 +8,7 @@ android {
         version = release(37)
     }
     buildFeatures {
-        viewBinding
+        viewBinding = true
     }
     defaultConfig {
         applicationId = "com.example.studentinfo_2415141122122"

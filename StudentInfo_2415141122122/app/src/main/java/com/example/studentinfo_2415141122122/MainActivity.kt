@@ -1,20 +1,38 @@
 package com.example.studentinfo_2415141122122
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.studentinfo_2415141122122.databinding.ActivityMainBinding
+import com.example.studentinfo_2415141122122.model.Student
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
+    private val student = Student(
+        id = "2415141122122",
+        name = "Nguyen Nhuan Tri",
+        className = "SPKT",
+        age = 20,
+        score = 3.2
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        displayStudent()
+    }
+
+    private fun displayStudent() {
+        with(binding) {
+            tvStudentId.text = "MSSV: ${student.id}"
+            tvName.text = "Ho ten: ${student.name}"
+            tvClass.text = "Lop: ${student.className}"
+            tvAge.text = "Tuoi: ${student.age}"
+            tvScore.text = "Diem: ${student.score}"
         }
     }
 }
