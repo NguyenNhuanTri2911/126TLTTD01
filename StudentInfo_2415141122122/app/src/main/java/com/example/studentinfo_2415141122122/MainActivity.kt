@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.studentinfo_2415141122122.databinding.ActivityMainBinding
 import com.example.studentinfo_2415141122122.model.Student
+import com.example.studentinfo_2415141122122.extensions.formatScore
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             tvName.text = "Ho ten: ${student.name}"
             tvClass.text = "Lop: ${student.className}"
             tvAge.text = "Tuoi: ${student.age}"
-            tvScore.text = "Diem: ${student.score}"
+            tvScore.text = "Diem: ${student.score.formatScore()}"
         }
     }
 }
