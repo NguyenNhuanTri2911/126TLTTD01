@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.studentinfo_2415141122122.databinding.ActivityMainBinding
 import com.example.studentinfo_2415141122122.model.Student
 import com.example.studentinfo_2415141122122.extensions.formatScore
+import com.example.studentinfo_2415141122122.extensions.toDisplayInfo
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,8 +16,9 @@ class MainActivity : AppCompatActivity() {
         name = "Nguyen Nhuan Tri",
         className = "24SK1",
         age = 20,
-        score = 0.0,
-        status = "Dang hoc"
+        score = 3.2,
+        status = "Dang hoc",
+        phone = "0123456789"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +38,8 @@ class MainActivity : AppCompatActivity() {
             tvAge.text = "Tuoi: ${student.age}"
             tvScore.text = "Diem: ${student.score.formatScore()}"
             tvStatus.text = "Trang thai: ${student.status}"
+
+            tvStudentInfo.text = student.toDisplayInfo()
         }
     }
 }

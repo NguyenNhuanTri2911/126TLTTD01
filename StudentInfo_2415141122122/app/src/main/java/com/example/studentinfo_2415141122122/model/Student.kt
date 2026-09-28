@@ -6,5 +6,6 @@ data class Student(
     val className: String,
     val age: Int,
     val score: Double,
-    val status: String
+    val status: String,
+    val phone: String
 )
