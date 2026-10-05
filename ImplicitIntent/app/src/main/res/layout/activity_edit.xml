@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:padding="24dp">
 
     <TextView
@@ -12,7 +11,15 @@
         android:layout_height="wrap_content"
         android:text="CHỈNH SỬA THÔNG TIN"
         android:textSize="26sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Họ tên"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/edtName"
@@ -20,13 +27,41 @@
         android:layout_height="wrap_content"
         android:hint="Nhập họ tên"
         android:inputType="textPersonName"
-        android:layout_marginTop="30dp" />
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập email"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lớp"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/edtClass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập lớp"
+        android:inputType="text"
+        android:layout_marginBottom="25dp" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lưu và Quay lại"
-        android:layout_marginTop="25dp" />
+        android:text="Lưu &amp; Quay lại"
+        android:layout_gravity="center" />
 
 </LinearLayout>

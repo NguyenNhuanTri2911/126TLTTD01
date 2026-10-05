@@ -15,22 +15,43 @@ class EditActivity : AppCompatActivity() {
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Nhận tên hiện tại từ MainActivity
-        val currentName = intent.getStringExtra("CURRENT_NAME") ?: ""
+        // Nhận dữ liệu từ MainActivity
+        val currentName =
+            intent.getStringExtra("CURRENT_NAME") ?: ""
 
-        // Điền tên hiện tại vào EditText
+        val currentEmail =
+            intent.getStringExtra("CURRENT_EMAIL") ?: ""
+
+        val currentClass =
+            intent.getStringExtra("CURRENT_CLASS") ?: ""
+
+        // Hiển thị dữ liệu hiện tại
         binding.edtName.setText(currentName)
+        binding.edtEmail.setText(currentEmail)
+        binding.edtClass.setText(currentClass)
 
-        // Lưu và quay lại MainActivity
         binding.btnSave.setOnClickListener {
 
-            val newName = binding.edtName.text.toString()
+            val newName =
+                binding.edtName.text.toString()
 
+            val newEmail =
+                binding.edtEmail.text.toString()
+
+            val newClass =
+                binding.edtClass.text.toString()
+
+            // Tạo Intent chứa kết quả
             val resultIntent = Intent()
-            resultIntent.putExtra("NEW_NAME", newName)
 
+            resultIntent.putExtra("NEW_NAME", newName)
+            resultIntent.putExtra("NEW_EMAIL", newEmail)
+            resultIntent.putExtra("NEW_CLASS", newClass)
+
+            // Trả dữ liệu về MainActivity
             setResult(RESULT_OK, resultIntent)
 
+            // Đóng EditActivity
             finish()
         }
     }

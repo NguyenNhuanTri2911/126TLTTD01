@@ -1,6 +1,7 @@
 package com.example.implicitintent
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +11,22 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    // Tên hiện tại
-    private var currentName = "Chưa có thông tin"
+    private var studentName = "Nguyễn Nhuận Trị"
+    private var studentEmail = "nntri@gmail.com"
+    private var studentClass = "classname"
 
-    // Nhận kết quả trả về từ EditActivity
+    // Chọn ảnh đại diện
+    private val pickImageLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.GetContent()
+        ) { uri: Uri? ->
+
+            uri?.let {
+                binding.imgAvatar.setImageURI(it)
+            }
+        }
+
+    // Nhận dữ liệu từ EditActivity
     private val editActivityLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -21,12 +34,25 @@ class MainActivity : AppCompatActivity() {
 
             if (result.resultCode == RESULT_OK) {
 
-                val newName = result.data?.getStringExtra("NEW_NAME")
+                val data = result.data
+
+                val newName = data?.getStringExtra("NEW_NAME")
+                val newEmail = data?.getStringExtra("NEW_EMAIL")
+                val newClass = data?.getStringExtra("NEW_CLASS")
 
                 if (!newName.isNullOrEmpty()) {
-                    currentName = newName
-                    binding.tvName.text = currentName
+                    studentName = newName
                 }
+
+                if (!newEmail.isNullOrEmpty()) {
+                    studentEmail = newEmail
+                }
+
+                if (!newClass.isNullOrEmpty()) {
+                    studentClass = newClass
+                }
+
+                updateStudentInfo()
             }
         }
 
@@ -36,18 +62,32 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Hiển thị tên hiện tại
-        binding.tvName.text = currentName
+        updateStudentInfo()
 
-        // Mở EditActivity
+        // Nút chọn ảnh
+        binding.btnAvatar.setOnClickListener {
+
+            pickImageLauncher.launch("image/*")
+        }
+
+        // Nút chỉnh sửa
         binding.btnEdit.setOnClickListener {
 
             val intent = Intent(this, EditActivity::class.java)
 
-            // Gửi tên hiện tại sang EditActivity
-            intent.putExtra("CURRENT_NAME", currentName)
+            intent.putExtra("CURRENT_NAME", studentName)
+            intent.putExtra("CURRENT_EMAIL", studentEmail)
+            intent.putExtra("CURRENT_CLASS", studentClass)
 
             editActivityLauncher.launch(intent)
         }
+    }
+
+    private fun updateStudentInfo() {
+
+        binding.tvName.text = studentName
+        binding.tvEmail.text = "Email: $studentEmail"
+        binding.tvClass.text = "Lớp: $studentClass"
+        binding.tvStudentId.text = "MSSV: 2415141122122"
     }
 }

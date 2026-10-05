@@ -4,29 +4,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:padding="24dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="THÔNG TIN"
-        android:textSize="28sp"
-        android:textStyle="bold" />
+        android:text="THÔNG TIN SINH VIÊN"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="25dp" />
+
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="centerCrop"
+        android:contentDescription="Ảnh đại diện" />
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chưa có thông tin"
+        android:text="Nguyễn Nhuận Trị"
         android:textSize="22sp"
-        android:layout_marginTop="30dp" />
+        android:textStyle="bold"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/tvStudentId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MSSV: 2415141122122"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email: nntri@gmail.com"
+        android:textSize="18sp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/tvClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lớp: classname"
+        android:textSize="18sp"
+        android:layout_marginTop="5dp" />
+
+    <Button
+        android:id="@+id/btnAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn ảnh đại diện"
+        android:layout_marginTop="25dp" />
 
     <Button
         android:id="@+id/btnEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chỉnh sửa thông tin"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>
