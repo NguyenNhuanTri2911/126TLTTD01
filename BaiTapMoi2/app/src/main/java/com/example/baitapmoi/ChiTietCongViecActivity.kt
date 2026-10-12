@@ -1,8 +1,10 @@
+
 package com.example.baitapmoi
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.baitapmoi.databinding.ActivityChiTietCongViecBinding
@@ -10,26 +12,23 @@ import com.example.baitapmoi.databinding.ActivityChiTietCongViecBinding
 class ChiTietCongViecActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChiTietCongViecBinding
-    private var viTriCongViec: Int = -1
+    private var viTriCongViec = -1
 
-    // Nhan ket qua sau khi chinh sua cong viec
-    private val chinhSuaLauncher = registerForActivityResult(
+    private val boChinhSua = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { ketQua ->
         if (ketQua.resultCode == Activity.RESULT_OK) {
-            val congViec = layCongViec()
+            val congViec = layCongViec() ?: return@registerForActivityResult
 
-            if (congViec != null) {
-                congViec.tenCongViec =
-                    ketQua.data?.getStringExtra("TEN_CONG_VIEC_MOI")
-                        ?: congViec.tenCongViec
+            congViec.tenCongViec =
+                ketQua.data?.getStringExtra("TEN_CONG_VIEC_MOI")
+                    ?: congViec.tenCongViec
 
-                congViec.moTa =
-                    ketQua.data?.getStringExtra("MO_TA_MOI")
-                        ?: congViec.moTa
+            congViec.moTa =
+                ketQua.data?.getStringExtra("MO_TA_MOI")
+                    ?: congViec.moTa
 
-                capNhatGiaoDien()
-            }
+            capNhatGiaoDien()
         }
     }
 
@@ -39,36 +38,47 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         binding = ActivityChiTietCongViecBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viTriCongViec = intent.getIntExtra("VI_TRI_CONG_VIEC", -1)
+        viTriCongViec =
+            intent.getIntExtra("VI_TRI_CONG_VIEC", -1)
 
-        // Ho tro du lieu truyen truc tiep bang Intent o Cau 2
+        // Ho tro du lieu truyen truc tiep bang Intent tu Cau 2.
         if (viTriCongViec == -1) {
-            val tenCongViec = intent.getStringExtra("TEN_CONG_VIEC") ?: ""
-            val moTa = intent.getStringExtra("MO_TA") ?: ""
+            val tenCongViec =
+                intent.getStringExtra("TEN_CONG_VIEC") ?: ""
+
+            val moTa =
+                intent.getStringExtra("MO_TA") ?: ""
 
             if (tenCongViec.isBlank()) {
+                Toast.makeText(
+                    this,
+                    "Khong tim thay cong viec",
+                    Toast.LENGTH_SHORT
+                ).show()
                 finish()
                 return
             }
 
             DuLieuCongViec.danhSachCongViec.add(
-                CongViec(
-                    tenCongViec = tenCongViec,
-                    moTa = moTa
-                )
+                CongViec(tenCongViec, moTa)
             )
 
-            viTriCongViec = DuLieuCongViec.danhSachCongViec.lastIndex
+            viTriCongViec =
+                DuLieuCongViec.danhSachCongViec.lastIndex
         }
 
         if (layCongViec() == null) {
+            Toast.makeText(
+                this,
+                "Cong viec khong ton tai",
+                Toast.LENGTH_SHORT
+            ).show()
             finish()
             return
         }
 
         capNhatGiaoDien()
 
-        // Nut chinh sua cong viec
         binding.btnChinhSua.setOnClickListener {
             val congViec = layCongViec() ?: return@setOnClickListener
 
@@ -87,47 +97,53 @@ class ChiTietCongViecActivity : AppCompatActivity() {
                 congViec.moTa
             )
 
-            chinhSuaLauncher.launch(manHinhChinhSua)
+            boChinhSua.launch(manHinhChinhSua)
         }
 
-        // Hien thi trang thai ban dau cua cong viec
-        val congViec = layCongViec() ?: return
+        binding.btnHoanThanh.setOnClickListener {
+            val congViec = layCongViec() ?: return@setOnClickListener
 
-        binding.cbHoanThanh.isChecked = congViec.trangThai
-        capNhatTrangThai(congViec)
+            congViec.trangThai = true
+            capNhatGiaoDien()
 
-        // Cap nhat trang thai khi tich hoac bo tich CheckBox
-        binding.cbHoanThanh.setOnCheckedChangeListener { _, daHoanThanh ->
-            congViec.trangThai = daHoanThanh
-            capNhatTrangThai(congViec)
+            Toast.makeText(
+                this,
+                "Da hoan thanh cong viec",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
-    // Lay cong viec theo vi tri trong danh sach
     private fun layCongViec(): CongViec? {
-        return DuLieuCongViec.danhSachCongViec.getOrNull(viTriCongViec)
+        return DuLieuCongViec.danhSachCongViec.getOrNull(
+            viTriCongViec
+        )
     }
 
-    // Cap nhat noi dung trang thai
-    private fun capNhatTrangThai(congViec: CongViec) {
-        binding.tvTrangThai.text = if (congViec.trangThai) {
-            "Trang thai: Da hoan thanh"
-        } else {
-            "Trang thai: Chua hoan thanh"
-        }
-    }
-
-    // Cap nhat ten va mo ta cong viec
     private fun capNhatGiaoDien() {
         val congViec = layCongViec() ?: return
 
+        binding.tvMaCongViec.text =
+            "Ma cong viec: ${congViec.maCongViec}"
+
         binding.tvTenCongViec.text =
-            "Ten cong viec: ${congViec.tenCongViec}"
+            congViec.tenCongViec
 
         binding.tvMoTa.text =
-            "Mo ta: ${congViec.moTa}"
+            congViec.moTa
 
-        binding.cbHoanThanh.isChecked = congViec.trangThai
-        capNhatTrangThai(congViec)
+        if (congViec.laDaHoanThanh()) {
+            binding.tvTrangThai.text =
+                "Trang thai: Da hoan thanh"
+
+            binding.btnHoanThanh.isEnabled = false
+            binding.btnHoanThanh.text = "Da hoan thanh"
+        } else {
+            binding.tvTrangThai.text =
+                "Trang thai: Chua hoan thanh"
+
+            binding.btnHoanThanh.isEnabled = true
+            binding.btnHoanThanh.text = "Hoan thanh"
+        }
     }
 }
