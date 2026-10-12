@@ -1,3 +1,6 @@
+package com.example.baitapmoi
+
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -8,25 +11,27 @@ class ChiTietCongViecActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChiTietCongViecBinding
 
-    private var tenCongViec = ""
-    private var moTa = ""
+    private var viTriCongViec: Int = -1
 
-    private val chinhSuaLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { ketQua ->
-            if (ketQua.resultCode == RESULT_OK) {
-                val duLieu = ketQua.data
+    private val chinhSuaLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { ketQua ->
+        if (ketQua.resultCode == Activity.RESULT_OK) {
+            val congViec = layCongViec()
 
-                tenCongViec =
-                    duLieu?.getStringExtra("TEN_CONG_VIEC_MOI") ?: tenCongViec
+            if (congViec != null) {
+                congViec.tenCongViec =
+                    ketQua.data?.getStringExtra("TEN_CONG_VIEC_MOI")
+                        ?: congViec.tenCongViec
 
-                moTa =
-                    duLieu?.getStringExtra("MO_TA_MOI") ?: moTa
+                congViec.moTa =
+                    ketQua.data?.getStringExtra("MO_TA_MOI")
+                        ?: congViec.moTa
 
                 capNhatGiaoDien()
             }
         }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,22 +39,75 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         binding = ActivityChiTietCongViecBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        tenCongViec = intent.getStringExtra("TEN_CONG_VIEC") ?: ""
-        moTa = intent.getStringExtra("MO_TA") ?: ""
+        viTriCongViec =
+            intent.getIntExtra("VI_TRI_CONG_VIEC", -1)
+
+        // Ho tro du lieu truyen truc tiep bang Intent o Cau 2.
+        if (viTriCongViec == -1) {
+            val tenCongViec =
+                intent.getStringExtra("TEN_CONG_VIEC") ?: ""
+
+            val moTa =
+                intent.getStringExtra("MO_TA") ?: ""
+
+            if (tenCongViec.isBlank()) {
+                finish()
+                return
+            }
+
+            DuLieuCongViec.danhSachCongViec.add(
+                CongViec(
+                    tenCongViec = tenCongViec,
+                    moTa = moTa
+                )
+            )
+
+            viTriCongViec =
+                DuLieuCongViec.danhSachCongViec.lastIndex
+        }
+
+        if (layCongViec() == null) {
+            finish()
+            return
+        }
 
         capNhatGiaoDien()
 
         binding.btnChinhSua.setOnClickListener {
-            val intent = Intent(this, ChinhSuaCongViecActivity::class.java)
-            intent.putExtra("TEN_CONG_VIEC", tenCongViec)
-            intent.putExtra("MO_TA", moTa)
+            val congViec = layCongViec() ?: return@setOnClickListener
 
-            chinhSuaLauncher.launch(intent)
+            val manHinhChinhSua = Intent(
+                this,
+                ChinhSuaCongViecActivity::class.java
+            )
+
+            manHinhChinhSua.putExtra(
+                "TEN_CONG_VIEC",
+                congViec.tenCongViec
+            )
+
+            manHinhChinhSua.putExtra(
+                "MO_TA",
+                congViec.moTa
+            )
+
+            chinhSuaLauncher.launch(manHinhChinhSua)
         }
     }
 
+    private fun layCongViec(): CongViec? {
+        return DuLieuCongViec.danhSachCongViec.getOrNull(
+            viTriCongViec
+        )
+    }
+
     private fun capNhatGiaoDien() {
-        binding.tvTenCongViec.text = "Ten cong viec: $tenCongViec"
-        binding.tvMoTa.text = "Mo ta: $moTa"
+        val congViec = layCongViec() ?: return
+
+        binding.tvTenCongViec.text =
+            "Ten cong viec: ${congViec.tenCongViec}"
+
+        binding.tvMoTa.text =
+            "Mo ta: ${congViec.moTa}"
     }
 }
