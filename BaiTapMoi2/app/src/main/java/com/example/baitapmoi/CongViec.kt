@@ -5,7 +5,7 @@ data class CongViec(
     var tenCongViec: String,
     var moTa: String,
     var trangThai: Boolean = false,
-    var maCongViec: String = "CV${System.currentTimeMillis()}"
+    var maCongViec: String = ""
 ) {
     fun layThongTin(): String {
         val trangThaiHienThi = if (laDaHoanThanh()) {
