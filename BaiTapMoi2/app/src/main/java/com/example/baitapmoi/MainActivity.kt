@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.baitapmoi.databinding.ActivityMainBinding
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,11 +20,11 @@ class MainActivity : AppCompatActivity() {
             val tenCongViec = binding.edtTenCongViec.text.toString()
             val moTa = binding.edtMoTa.text.toString()
 
-            Toast.makeText(
-                this,
-                "Da nhan thong tin cong viec",
-                Toast.LENGTH_SHORT
-            ).show()
+            val intent = Intent(this, ChiTietCongViecActivity::class.java)
+            intent.putExtra("TEN_CONG_VIEC", tenCongViec)
+            intent.putExtra("MO_TA", moTa)
+
+            startActivity(intent)
         }
 
         binding.btnXemDanhSach.setOnClickListener {
