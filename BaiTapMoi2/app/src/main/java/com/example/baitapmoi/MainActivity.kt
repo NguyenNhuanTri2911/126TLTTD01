@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun taoCongViec() {
         val tenCongViec =
             binding.edtTenCongViec.text.toString().trim()
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         if (tenCongViec.isBlank()) {
             binding.edtTenCongViec.error =
-                "Vui long nhap ten cong viec"
+                "Vui lòng nhập tên công việc"
             binding.edtTenCongViec.requestFocus()
             return
         }
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         val viTriCongViec =
             DuLieuCongViec.danhSachCongViec.lastIndex
 
-        val manHinhChiTiet = Intent(
+        val manHinhChiTiet = android.content.Intent(
             this,
             ChiTietCongViecActivity::class.java
         )
@@ -63,12 +64,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.edtTenCongViec.text.clear()
         binding.edtMoTa.text.clear()
-
-        Toast.makeText(
-            this,
-            "Tao cong viec thanh cong",
-            Toast.LENGTH_SHORT
-        ).show()
 
         startActivity(manHinhChiTiet)
     }

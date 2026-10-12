@@ -31,4 +31,18 @@
         android:layout_height="wrap_content"
         android:text="Chinh sua"
         android:layout_marginTop="24dp" />
-    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cb_hoan_thanh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đã hoàn thành" />
+
+    <TextView
+        android:id="@+id/tv_trang_thai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chưa hoàn thành"
+        android:padding="8dp" />
+
+</LinearLayout>

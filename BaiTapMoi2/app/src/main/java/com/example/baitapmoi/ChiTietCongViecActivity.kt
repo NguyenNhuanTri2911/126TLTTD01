@@ -10,9 +10,9 @@ import com.example.baitapmoi.databinding.ActivityChiTietCongViecBinding
 class ChiTietCongViecActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChiTietCongViecBinding
-
     private var viTriCongViec: Int = -1
 
+    // Nhan ket qua sau khi chinh sua cong viec
     private val chinhSuaLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { ketQua ->
@@ -39,16 +39,12 @@ class ChiTietCongViecActivity : AppCompatActivity() {
         binding = ActivityChiTietCongViecBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viTriCongViec =
-            intent.getIntExtra("VI_TRI_CONG_VIEC", -1)
+        viTriCongViec = intent.getIntExtra("VI_TRI_CONG_VIEC", -1)
 
-        // Ho tro du lieu truyen truc tiep bang Intent o Cau 2.
+        // Ho tro du lieu truyen truc tiep bang Intent o Cau 2
         if (viTriCongViec == -1) {
-            val tenCongViec =
-                intent.getStringExtra("TEN_CONG_VIEC") ?: ""
-
-            val moTa =
-                intent.getStringExtra("MO_TA") ?: ""
+            val tenCongViec = intent.getStringExtra("TEN_CONG_VIEC") ?: ""
+            val moTa = intent.getStringExtra("MO_TA") ?: ""
 
             if (tenCongViec.isBlank()) {
                 finish()
@@ -62,8 +58,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
                 )
             )
 
-            viTriCongViec =
-                DuLieuCongViec.danhSachCongViec.lastIndex
+            viTriCongViec = DuLieuCongViec.danhSachCongViec.lastIndex
         }
 
         if (layCongViec() == null) {
@@ -73,6 +68,7 @@ class ChiTietCongViecActivity : AppCompatActivity() {
 
         capNhatGiaoDien()
 
+        // Nut chinh sua cong viec
         binding.btnChinhSua.setOnClickListener {
             val congViec = layCongViec() ?: return@setOnClickListener
 
@@ -93,14 +89,35 @@ class ChiTietCongViecActivity : AppCompatActivity() {
 
             chinhSuaLauncher.launch(manHinhChinhSua)
         }
+
+        // Hien thi trang thai ban dau cua cong viec
+        val congViec = layCongViec() ?: return
+
+        binding.cbHoanThanh.isChecked = congViec.trangThai
+        capNhatTrangThai(congViec)
+
+        // Cap nhat trang thai khi tich hoac bo tich CheckBox
+        binding.cbHoanThanh.setOnCheckedChangeListener { _, daHoanThanh ->
+            congViec.trangThai = daHoanThanh
+            capNhatTrangThai(congViec)
+        }
     }
 
+    // Lay cong viec theo vi tri trong danh sach
     private fun layCongViec(): CongViec? {
-        return DuLieuCongViec.danhSachCongViec.getOrNull(
-            viTriCongViec
-        )
+        return DuLieuCongViec.danhSachCongViec.getOrNull(viTriCongViec)
     }
 
+    // Cap nhat noi dung trang thai
+    private fun capNhatTrangThai(congViec: CongViec) {
+        binding.tvTrangThai.text = if (congViec.trangThai) {
+            "Trang thai: Da hoan thanh"
+        } else {
+            "Trang thai: Chua hoan thanh"
+        }
+    }
+
+    // Cap nhat ten va mo ta cong viec
     private fun capNhatGiaoDien() {
         val congViec = layCongViec() ?: return
 
@@ -109,5 +126,8 @@ class ChiTietCongViecActivity : AppCompatActivity() {
 
         binding.tvMoTa.text =
             "Mo ta: ${congViec.moTa}"
+
+        binding.cbHoanThanh.isChecked = congViec.trangThai
+        capNhatTrangThai(congViec)
     }
 }
